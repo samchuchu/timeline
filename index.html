@@ -5,137 +5,336 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>繼承手續重要時間表</title>
 <style>
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; color: #333; padding: 40px 20px; line-height: 1.6; }
-  h2 { text-align: center; color: #2c3e50; margin-bottom: 40px; }
-  .timeline { position: relative; max-width: 800px; margin: 0 auto; }
-  .timeline::after { content: ''; position: absolute; width: 4px; background-color: #3498db; top: 0; bottom: 0; left: 31px; margin-left: -2px; border-radius: 2px; }
-  .container { padding: 10px 40px; position: relative; width: 100%; box-sizing: border-box; margin-bottom: 20px; }
-  .container::after { content: ''; position: absolute; width: 20px; height: 20px; left: 21px; background-color: white; border: 4px solid #3498db; top: 25px; border-radius: 50%; z-index: 1; box-shadow: 0 0 0 4px #f0f4f8; }
-  .container.past::after { border-color: #e74c3c; }
-  .content { padding: 20px 25px; background-color: white; position: relative; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s ease; border-left: 5px solid #3498db; }
-  .content.past { border-left-color: #e74c3c; }
-  .content:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-  details { cursor: pointer; }
-  summary { font-size: 1.1em; font-weight: bold; outline: none; list-style-type: none; display: flex; align-items: center; color: #2c3e50; }
-  summary::-webkit-details-marker { display: none; }
-  summary::before { content: '▶'; display: inline-block; margin-right: 15px; transition: transform 0.3s; font-size: 0.8em; color: #3498db; }
-  .content.past summary::before { color: #e74c3c; }
-  details[open] summary::before { transform: rotate(90deg); }
-  .time-badge { background: #e8f4f8; color: #2980b9; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; margin-right: 15px; font-weight: bold; display: inline-block; min-width: 70px; text-align: center;}
-  .time-badge.past { background: #ffebee; color: #c62828; }
-  .details-content { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee; animation: fadeIn 0.3s ease; }
-  .details-content p { margin: 8px 0; font-size: 0.95em; color: #555; }
-  .note { background-color: #fffde7; border: 1px solid #fff59d; border-left: 4px solid #fbc02d; padding: 15px; margin-top: 15px; border-radius: 4px; font-size: 0.95em; color: #666; transition: all 0.3s ease; }
-  .note:focus { outline: none; border-color: #fbc02d; box-shadow: 0 0 0 3px rgba(251,192,45,0.2); background-color: #fff; }
-  .note-title { font-weight: bold; color: #f57f17; margin-bottom: 5px; display: block; pointer-events: none; }
-  .highlight-box { background-color: #e3f2fd; padding: 15px; border-left: 4px solid #2196f3; margin: 15px 0; border-radius: 4px; font-size: 0.95em; color: #0d47a1; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+ *, *::before, *::after { box-sizing: border-box; }
+
+ body {
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   background-color: #f0f4f8;
+   color: #333;
+   padding: 20px 16px 60px;
+   line-height: 1.65;
+   margin: 0;
+ }
+
+ h2 {
+   text-align: center;
+   color: #2c3e50;
+   margin: 0 0 28px;
+   font-size: 1.25rem;
+ }
+
+ .timeline {
+   max-width: 520px;
+   margin: 0 auto;
+   display: flex;
+   flex-direction: column;
+   gap: 14px;
+ }
+
+ .container {
+   position: relative;
+   width: 100%;
+ }
+
+ .container::after { display: none; } /* hide timeline dot */
+
+ .content {
+   background-color: #fff;
+   border-radius: 12px;
+   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+   border-left: 5px solid #3498db;
+   overflow: hidden;
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+ }
+
+ .content:hover {
+   transform: translateY(-1px);
+   box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+ }
+
+ .content.past { border-left-color: #e74c3c; }
+
+ details { cursor: pointer; }
+
+ summary {
+   font-size: 1rem;
+   font-weight: bold;
+   outline: none;
+   list-style-type: none;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: 8px;
+   color: #2c3e50;
+   padding: 16px 18px 14px;
+ }
+
+ summary::-webkit-details-marker { display: none; }
+ summary::before {
+   content: '▶';
+   display: inline-block;
+   margin-right: 0;
+   transition: transform 0.3s;
+   font-size: 0.75em;
+   color: #3498db;
+ }
+ .content.past summary::before { color: #e74c3c; }
+ details[open] summary::before { transform: rotate(90deg); }
+
+ /* Stack badge + title in a column */
+ .summary-row {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: 6px;
+   width: 100%;
+ }
+
+ .time-badge {
+   background: #e8f4f8;
+   color: #2980b9;
+   padding: 3px 12px;
+   border-radius: 20px;
+   font-size: 0.8em;
+   font-weight: bold;
+   display: inline-block;
+   text-align: center;
+   white-space: nowrap;
+ }
+ .time-badge.past { background: #ffebee; color: #c62828; }
+
+ .summary-title {
+   font-size: 1.05em;
+   font-weight: bold;
+   color: #2c3e50;
+   line-height: 1.4;
+ }
+
+ /* Arrow inline with title */
+ details summary > span.arrow {
+   font-size: 0.8em;
+   color: #3498db;
+   margin-top: 2px;
+ }
+ details[open] summary > span.arrow { transform: rotate(90deg); display: inline-block; transition: transform 0.3s; }
+
+ /* Make the whole summary row be badge + title */
+ .header-line {
+   display: flex;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 8px;
+   width: 100%;
+ }
+
+ details[open] summary .header-line::before { content: '▼'; font-size: 0.7em; color: #3498db; margin-right: 4px; }
+ details:not([open]) summary .header-line::before { content: '▶'; font-size: 0.7em; color: #3498db; margin-right: 4px; }
+
+ .content.past details[open] summary .header-line::before,
+ .content.past details:not([open]) summary .header-line::before { color: #e74c3c; }
+
+ .details-content {
+   padding: 0 18px 18px;
+   border-top: 1px dashed #eee;
+   animation: fadeIn 0.25s ease;
+ }
+
+ .details-content p {
+   margin: 10px 0;
+   font-size: 0.92em;
+   color: #444;
+   line-height: 1.7;
+ }
+
+ .note {
+   background-color: #fffde7;
+   border: 1px solid #fff59d;
+   border-left: 4px solid #fbc02d;
+   padding: 14px;
+   margin-top: 14px;
+   border-radius: 6px;
+   font-size: 0.9em;
+   color: #555;
+ }
+
+ .note-title {
+   font-weight: bold;
+   color: #f57f17;
+   margin-bottom: 5px;
+   display: block;
+ }
+
+ .highlight-box {
+   background-color: #e3f2fd;
+   padding: 14px;
+   border-left: 4px solid #2196f3;
+   margin: 12px 0;
+   border-radius: 6px;
+   font-size: 0.9em;
+   color: #0d47a1;
+   line-height: 1.6;
+ }
+
+ @keyframes fadeIn {
+   from { opacity: 0; transform: translateY(-6px); }
+   to   { opacity: 1; transform: translateY(0); }
+ }
+
+ /* Phase number label */
+ .phase-tag {
+   display: inline-block;
+   background: #f0f4f8;
+   color: #888;
+   font-size: 0.72em;
+   font-weight: bold;
+   padding: 1px 7px;
+   border-radius: 10px;
+   margin-bottom: 4px;
+   letter-spacing: 0.03em;
+   text-transform: uppercase;
+ }
+
+ /* Compact horizontal rule between sections */
+ .divider {
+   border: none;
+   border-top: 1px dashed #e0e0e0;
+   margin: 2px 0;
+   display: block;
+   width: 100%;
+ }
 </style>
 </head>
 <body>
-  <h2>⏳ 繼承手續重要時間表</h2>
+<h2>⏳ 繼承手續重要時間表</h2>
 
-  <div class="timeline">
+<div class="timeline">
 
-    <!-- Phase 1 -->
-    <div class="container past">
-      <div class="content past">
-        <details>
-          <summary><span class="time-badge past">已過1個月</span> 選定遺產管理人</summary>
-          <div class="details-content">
-            <p><strong>法條依據：</strong> 民法第 1177 條、第 1178 條</p>
-            <p><strong>說明：</strong> 繼承開始時，若繼承人之有無不明者，由親屬會議於一個月內選定遺產管理人，並向法院報明。<br><br>
-            <strong>★ 逾期聲請法院選任 (第 1178 條)：</strong> 無親屬會議或親屬會議未於前條所定期限內選定遺產管理人者，利害關係人或檢察官，得聲請法院選任遺產管理人，並由法院為公示催告。</p>
-            <div class="note" contenteditable="true">
-              <span class="note-title">📝 編輯 Note：</span><br>
-              ⚠️ 注意：已過一個月期限。
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+ <!-- Phase 1 -->
+ <div class="container past">
+ <div class="content past">
+ <details>
+ <summary>
+  <span class="header-line">
+   <span class="time-badge past">已過1個月</span>
+   <span class="summary-title">選定遺產管理人</span>
+  </span>
+ </summary>
+ <div class="details-content">
+ <p><strong>法條依據：</strong> 民法第 1177 條、第 1178 條</p>
+ <p><strong>說明：</strong> 繼承開始時，若繼承人之有無不明者，由親屬會議於一個月內選定遺產管理人，並向法院報明。</p>
+ <p><strong>★ 逾期聲請法院選任 (第 1178 條)：</strong> 無親屬會議或親屬會議未於前條所定期限內選定遺產管理人者，利害關係人或檢察官，得聲請法院選任遺產管理人，並由法院為公示催告。</p>
+ <div class="note" contenteditable="true">
+ <span class="note-title">📝 編輯 Note：</span>
+ ⚠️ 注意：已過一個月期限。
+ </div>
+ </div>
+ </details>
+ </div>
+ </div>
 
-    <!-- Phase 2A -->
-    <div class="container">
-      <div class="content">
-        <details>
-          <summary><span class="time-badge">3 個月內</span> 開具遺產清冊陳報法院</summary>
-          <div class="details-content">
-            <p><strong>法條依據：</strong> 民法第 1156 條</p>
-            <p><strong>說明：</strong> 繼承人於知悉其得繼承之時起三個月內，開具遺產清冊陳報法院。</p>
+ <!-- Phase 2A -->
+ <div class="container">
+ <div class="content">
+ <details>
+ <summary>
+  <span class="header-line">
+   <span class="time-badge">3 個月內</span>
+   <span class="summary-title">開具遺產清冊陳報法院</span>
+  </span>
+ </summary>
+ <div class="details-content">
+ <p><strong>法條依據：</strong> 民法第 1156 條</p>
+ <p><strong>說明：</strong> 繼承人於知悉其得繼承之時刻起三個月內，開具遺產清冊陳報法院。</p>
 
-            <div class="highlight-box">
-              <strong>💡 關於委任律師辦理的說明：</strong><br>
-              目前委託律師處理是屬於「統包式」的完整服務。律師費是固定的，<strong>並不會</strong>因為我們自己省下或跳過一兩個步驟就減少收費。既然這本來就包在服務內，最省事、最有效率的做法，就是全部交給律師盡快走完流程處理結束，大家也省得麻煩。
-            </div>
+ <div class="highlight-box">
+ <strong>💡 關於委任律師辦理的說明：</strong><br>
+ 目前委託律師處理是屬於「統包式」的完整服務。律師費是固定的，<strong>並不會</strong>因為我們自己省下或跳過一兩個步驟就減少收費。既然這本來就包在服務內，最省事、最有效率的做法，就是全部交給律師盡快走完流程處理結束，大家也省得麻煩。
+ </div>
 
-            <div class="note" contenteditable="true">
-              <span class="note-title">📝 編輯 Note：</span><br>
-              進度：已申請已領取遺產清冊。請提出是否有異議？<br>
-              <strong>👉 若無異議，將交由代理人（律師）呈報法院。</strong>
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+ <div class="note" contenteditable="true">
+ <span class="note-title">📝 編輯 Note：</span>
+ 進度：已申請已領取遺產清冊。請提出是否有異議？<br>
+ <strong>👉 若無異議，將交由代理人（律師）呈報法院。</strong>
+ </div>
+ </div>
+ </details>
+ </div>
+ </div>
 
-    <!-- Phase 2C -->
-    <div class="container">
-      <div class="content">
-        <details>
-          <summary><span class="time-badge">3 個月內</span> 遺囑認定與失效</summary>
-          <div class="details-content">
-            <p><strong>法條依據：</strong> 民法第 1196、1197 條</p>
-            <p><strong>說明：</strong> 遺囑認定真偽與失效規定。</p>
-            <div class="note" contenteditable="true">
-              <span class="note-title">📝 編輯 Note：</span><br>
-              進度：待定是否有人提出有秘密遺囑, 目前統一認可無遺囑之事實。
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+ <!-- Phase 2C -->
+ <div class="container">
+ <div class="content">
+ <details>
+ <summary>
+  <span class="header-line">
+   <span class="time-badge">3 個月內</span>
+   <span class="summary-title">遺囑認定與失效</span>
+  </span>
+ </summary>
+ <div class="details-content">
+ <p><strong>法條依據：</strong> 民法第 1196、1197 條</p>
+ <p><strong>說明：</strong> 遺囑認定真偽與失效規定。</p>
+ <div class="note" contenteditable="true">
+ <span class="note-title">📝 編輯 Note：</span>
+ 進度：待定是否有人提出有秘密遺囑，目前統一認可無遺囑之事實。
+ </div>
+ </div>
+ </details>
+ </div>
+ </div>
 
-    <!-- Phase 3 -->
-    <div class="container">
-      <div class="content">
-        <details>
-          <summary><span class="time-badge">6個月以上</span> 公告繼承人承認繼承</summary>
-          <div class="details-content">
-            <p><strong>法條依據：</strong> 民法第 1178 條、第 1174 條（拋棄繼承）</p>
-            <div class="note" contenteditable="true">
-              <span class="note-title">📝 編輯 Note：</span><br>
-              進度：三個月內未拋棄繼承即視同承認繼承。
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+ <!-- Phase 3 -->
+ <div class="container">
+ <div class="content">
+ <details>
+ <summary>
+  <span class="header-line">
+   <span class="time-badge">6個月以上</span>
+   <span class="summary-title">公告繼承人承認繼承</span>
+  </span>
+ </summary>
+ <div class="details-content">
+ <p><strong>法條依據：</strong> 民法第 1178 條、第 1174 條（拋棄繼承）</p>
+ <div class="note" contenteditable="true">
+ <span class="note-title">📝 編輯 Note：</span>
+ 進度：三個月內未拋棄繼承即視同承認繼承。
+ </div>
+ </div>
+ </details>
+ </div>
+ </div>
 
-    <!-- Phase 6 (Updated) -->
-    <div class="container">
-      <div class="content">
-        <details open>
-          <summary><span class="time-badge">遺產分割時</span> 分配協議、平均分配與夫妻財產</summary>
-          <div class="details-content">
-            <p><strong>法條依據：</strong> 民法第 1141 條、第 1151 條、第 1030-1 條</p>
-            <p><strong>說明：</strong> <br>
-            <strong>★ 按人數平均繼承 (第 1141 條)：</strong> 同一順序之繼承人有數人時，按人數平均繼承。<br><br>
-            <strong>★ 遺產公同共有 (第 1151 條)：</strong> 繼承人有數人時，在分割遺產前，各繼承人對於遺產全部為公同共有。<br><br>
-            <strong>★ 夫妻剩餘財產差額分配 (第 1030-1 條)：</strong><br>
-            - <strong>計算方式：</strong> 法定財產制關係消滅時，夫或妻現存之婚後財產，扣除婚姻關係存續所負債務後，如有剩餘，其雙方剩餘財產之差額，應平均分配。<br>
-            - <strong>時效期限：</strong> 請求權人知有剩餘財產之差額時起，<strong>2 年內</strong>不行使而消滅。自法定財產制關係消滅（如配偶過世）起，逾 <strong>5 年</strong>者亦同。<br><br>
-            實務上，若無遺囑，繼承人們可以透過擬定「遺產分割協議書」來決定遺產分配。若無法達成協議，則依法按人數平均分配。</p>
+ <!-- Phase 6 -->
+ <div class="container">
+ <div class="content">
+ <details open>
+ <summary>
+  <span class="header-line">
+   <span class="time-badge">遺產分割時</span>
+   <span class="summary-title">分配協議、平均分配與夫妻財產</span>
+  </span>
+ </summary>
+ <div class="details-content">
+ <p><strong>法條依據：</strong> 民法第 1141 條、第 1151 條、第 1030-1 條</p>
+ <p><strong>說明：</strong></p>
+ <p><strong>★ 按人數平均繼承 (第 1141 條)：</strong> 同一順序之繼承人有數人時，按人數平均繼承。</p>
+ <p><strong>★ 遺產公同共有 (第 1151 條)：</strong> 繼承人有數人時，在分割遺產前，各繼承人對於遺產全部為公同共有。</p>
+ <p><strong>★ 夫妻剩餘財產差額分配 (第 1030-1 條)：</strong></p>
+ <ul style="margin:8px 0;padding-left:20px;font-size:0.9em;color:#444;line-height:1.8;">
+  <li><strong>計算方式：</strong> 法定財產制關係消滅時，夫或妻現存之婚後財產，扣除婚姻關係存續所負債務後，如有剩餘，其雙方剩餘財產之差額，應平均分配。</li>
+  <li><strong>時效期限：</strong> 請求權人知有剩餘財產之差額時起，<strong>2 年內</strong>不行使而消滅。自法定財產制關係消滅（如配偶過世）起，逾 <strong>5 年</strong>者亦同。</li>
+ </ul>
+ <p>實務上，若無遺囑，繼承人們可以透過擬定「遺產分割協議書」來決定遺產分配。若無法達成協議，則依法按人數平均分配。</p>
 
-            <div class="note" contenteditable="true">
-              <span class="note-title">📝 編輯 Note：</span><br>
-              <strong>💡 處理建議：在法律上，若大家對分配無共識，底線就是依法平均分配。因此，如果能提早達成協議，並將「遺產分割協議書」交由代理人（律師）一起處理的話，律師就能一併代為完成更多步驟，省下大家後續親自辦理的麻煩與時間。</strong>
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+ <div class="note" contenteditable="true">
+ <span class="note-title">📝 編輯 Note：</span>
+ <strong>💡 處理建議：在法律上，若大家對分配無共識，底線就是依法平均分配。因此，如果能提早達成協議，並將「遺產分割協議書」交由代理人（律師）一起處理的話，律師就能一併代為完成更多步驟，省下大家後續親自辦理的麻煩與時間。</strong>
+ </div>
+ </div>
+ </details>
+ </div>
+ </div>
 
-  </div>
+</div>
 </body>
 </html>
